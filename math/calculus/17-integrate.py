@@ -33,4 +33,3 @@ def poly_integral(poly, C=0):
     while integral[-1] is 0 and len(integral) > 1:
         integral = integral[:-1]
     return integral
-
