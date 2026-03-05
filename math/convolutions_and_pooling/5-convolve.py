@@ -1,37 +1,43 @@
 #!/usr/bin/env python3
-"""Convolution on images using multiple kernels."""
+"""
+Function that performs a convolution on grayscale images
+"""
 import numpy as np
 
 
 def convolve(images, kernels, padding='same', stride=(1, 1)):
-    """Perform a convolution on images using multiple kernels."""
-    m, h, w, c = images.shape
-    kh, kw, _, nc = kernels.shape
-    sh, sw = stride
-
-    if padding == 'same':
-        ph = max((kh - 1) // 2, kh // 2)
-        pw = max((kw - 1) // 2, kw // 2)
-    elif padding == 'valid':
-        ph, pw = 0, 0
+    """
+    Function that performs a convolution on grayscale images
+    """
+    m, h, w = images.shape[0], images.shape[1], images.shape[2]
+    kh, kw, nc = kernels.shape[0], kernels.shape[1], kernels.shape[3]
+    sh, sw = stride[0], stride[1]
+    if padding == "same":
+        pw = int(((w - 1) * sw + kw - w) / 2) + 1
+        ph = int(((h - 1) * sh + kh - h) / 2) + 1
+    elif padding == "valid":
+        ph = 0
+        pw = 0
     else:
-        ph, pw = padding
-
-    out_h = (h + 2 * ph - kh) // sh + 1
-    out_w = (w + 2 * pw - kw) // sw + 1
-
-    padded = np.pad(images, ((0, 0), (ph, ph), (pw, pw), (0, 0)),
-                    mode='constant')
-
-    output = np.zeros((m, out_h, out_w, nc))
-
-    for i in range(out_h):
-        for j in range(out_w):
+        pw = padding[1]
+        ph = padding[0]
+    nw = int(((w - kw + (2 * pw)) / sw) + 1)
+    nh = int(((h - kh + (2 * ph)) / sh) + 1)
+    convolved = np.zeros((m, nh, nw, nc))
+    npad = ((0, 0), (ph, ph), (pw, pw), (0, 0))
+    imagesp = np.pad(
+        images,
+        pad_width=npad,
+        mode="constant",
+        constant_values=0)
+    for i in range(nh):
+        x = i * sh
+        for j in range(nw):
+            y = j * sw
             for k in range(nc):
-                patch = padded[
-                    :, i * sh:i * sh + kh, j * sw:j * sw + kw, :]
-                output[:, i, j, k] = np.sum(
-                    patch * kernels[:, :, :, k], axis=(1, 2, 3)
+                image = imagesp[:, x: x + kh, y: y + kw, :]
+                kernel = kernels[:, :, :, k]
+                convolved[:, i, j, k] = np.sum(
+                    np.multiply(image, kernel), axis=(1, 2, 3)
                 )
-
-    return output
+    return convolved
