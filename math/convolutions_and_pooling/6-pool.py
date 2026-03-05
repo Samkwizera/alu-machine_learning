@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Pooling on images"""
 import numpy as np
 
 

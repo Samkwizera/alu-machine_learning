@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Convolution on images using multiple kernels"""
 import numpy as np
 
 

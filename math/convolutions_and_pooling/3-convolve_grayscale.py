@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Strided convolution on grayscale images"""
 import numpy as np
 
 

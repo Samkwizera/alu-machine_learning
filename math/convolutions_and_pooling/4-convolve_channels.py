@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Convolution on images with channels"""
 import numpy as np
 
 
