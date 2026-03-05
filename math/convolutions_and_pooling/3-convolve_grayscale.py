@@ -1,19 +1,10 @@
 #!/usr/bin/env python3
+"""Strided convolution on grayscale images"""
 import numpy as np
 
 
 def convolve_grayscale(images, kernel, padding='same', stride=(1, 1)):
-    """Performs a convolution on grayscale images with stride and padding.
-
-    Args:
-        images: numpy.ndarray shape (m, h, w) - grayscale images
-        kernel: numpy.ndarray shape (kh, kw) - convolution kernel
-        padding: 'same', 'valid', or tuple (ph, pw)
-        stride: tuple (sh, sw)
-
-    Returns:
-        numpy.ndarray containing the convolved images
-    """
+    """Performs a convolution on grayscale images."""
     m, h, w = images.shape
     kh, kw = kernel.shape
     sh, sw = stride

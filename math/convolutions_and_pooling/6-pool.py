@@ -1,19 +1,10 @@
 #!/usr/bin/env python3
+"""Pooling on images"""
 import numpy as np
 
 
 def pool(images, kernel_shape, stride, mode='max'):
-    """Performs pooling on images.
-
-    Args:
-        images: numpy.ndarray shape (m, h, w, c) - images with channels
-        kernel_shape: tuple (kh, kw) - kernel shape for pooling
-        stride: tuple (sh, sw)
-        mode: 'max' for max pooling, 'avg' for average pooling
-
-    Returns:
-        numpy.ndarray containing the pooled images
-    """
+    """Performs pooling on images."""
     m, h, w, c = images.shape
     kh, kw = kernel_shape
     sh, sw = stride
