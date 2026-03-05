@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Convolution on images using multiple kernels"""
+"""Convolution on images using multiple kernels."""
 import numpy as np
 
 
 def convolve(images, kernels, padding='same', stride=(1, 1)):
-    """Performs a convolution on images using multiple kernels."""
+    """Perform a convolution on images using multiple kernels."""
     m, h, w, c = images.shape
     kh, kw, _, nc = kernels.shape
     sh, sw = stride

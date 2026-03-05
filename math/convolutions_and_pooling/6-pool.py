@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Pooling on images"""
+"""Pooling on images."""
 import numpy as np
 
 
 def pool(images, kernel_shape, stride, mode='max'):
-    """Performs pooling on images."""
+    """Perform pooling on images."""
     m, h, w, c = images.shape
     kh, kw = kernel_shape
     sh, sw = stride

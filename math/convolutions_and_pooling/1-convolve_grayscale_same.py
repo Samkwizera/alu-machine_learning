@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Same convolution on grayscale images"""
+"""Same convolution on grayscale images."""
 import numpy as np
 
 
 def convolve_grayscale_same(images, kernel):
-    """Performs a same convolution on grayscale images."""
+    """Perform a same convolution on grayscale images."""
     m, h, w = images.shape
     kh, kw = kernel.shape
 

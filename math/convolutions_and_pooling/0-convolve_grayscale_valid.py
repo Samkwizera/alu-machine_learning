@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Valid convolution on grayscale images"""
+"""Valid convolution on grayscale images."""
 import numpy as np
 
 
 def convolve_grayscale_valid(images, kernel):
-    """Performs a valid convolution on grayscale images."""
+    """Perform a valid convolution on grayscale images."""
     m, h, w = images.shape
     kh, kw = kernel.shape
 
