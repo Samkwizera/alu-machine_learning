@@ -76,5 +76,9 @@ class DeepNeuralNetwork:
             if i > 1:
                 dz = (np.matmul(weights["W{}".format(i)].T, dz) *
                       a_prev * (1 - a_prev))
-            self.__weights["W{}".format(i)] = weights["W{}".format(i)] - alpha * dw
-            self.__weights["b{}".format(i)] = weights["b{}".format(i)] - alpha * db
+            self.__weights["W{}".format(i)] = (
+                weights["W{}".format(i)] - alpha * dw
+            )
+            self.__weights["b{}".format(i)] = (
+                weights["b{}".format(i)] - alpha * db
+            )

@@ -27,7 +27,9 @@ class DeepNeuralNetwork:
         for i, nodes in enumerate(layers, 1):
             if not isinstance(nodes, int) or nodes <= 0:
                 raise TypeError("layers must be a list of positive integers")
-            self.__weights["W{}".format(i)] = np.random.randn(nodes, prev) * np.sqrt(2 / prev)
+            self.__weights["W{}".format(i)] = (
+                np.random.randn(nodes, prev) * np.sqrt(2 / prev)
+            )
             self.__weights["b{}".format(i)] = np.zeros((nodes, 1))
             prev = nodes
 
@@ -55,10 +57,16 @@ class DeepNeuralNetwork:
         """Calculate forward propagation."""
         self.__cache["A0"] = X
         for i in range(1, self.__L + 1):
-            z = np.matmul(self.__weights["W{}".format(i)], self.__cache["A{}".format(i - 1)]) + self.__weights["b{}".format(i)]
+            z = (
+                np.matmul(self.__weights["W{}".format(i)],
+                          self.__cache["A{}".format(i - 1)]) +
+                self.__weights["b{}".format(i)]
+            )
             if i == self.__L:
                 t = np.exp(z - np.max(z, axis=0, keepdims=True))
-                self.__cache["A{}".format(i)] = t / np.sum(t, axis=0, keepdims=True)
+                self.__cache["A{}".format(i)] = (
+                    t / np.sum(t, axis=0, keepdims=True)
+                )
             elif self.__activation == "tanh":
                 self.__cache["A{}".format(i)] = np.tanh(z)
             else:
@@ -92,8 +100,12 @@ class DeepNeuralNetwork:
                     dz = da * (1 - a_prev ** 2)
                 else:
                     dz = da * a_prev * (1 - a_prev)
-            self.__weights["W{}".format(i)] = weights["W{}".format(i)] - alpha * dw
-            self.__weights["b{}".format(i)] = weights["b{}".format(i)] - alpha * db
+            self.__weights["W{}".format(i)] = (
+                weights["W{}".format(i)] - alpha * dw
+            )
+            self.__weights["b{}".format(i)] = (
+                weights["b{}".format(i)] - alpha * db
+            )
 
     def train(self, X, Y, iterations=5000, alpha=0.05,
               verbose=True, graph=True, step=100):

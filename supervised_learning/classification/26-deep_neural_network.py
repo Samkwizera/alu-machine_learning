@@ -24,7 +24,9 @@ class DeepNeuralNetwork:
         for i, nodes in enumerate(layers, 1):
             if not isinstance(nodes, int) or nodes <= 0:
                 raise TypeError("layers must be a list of positive integers")
-            self.__weights["W{}".format(i)] = np.random.randn(nodes, prev) * np.sqrt(2 / prev)
+            self.__weights["W{}".format(i)] = (
+                np.random.randn(nodes, prev) * np.sqrt(2 / prev)
+            )
             self.__weights["b{}".format(i)] = np.zeros((nodes, 1))
             prev = nodes
 
@@ -47,7 +49,11 @@ class DeepNeuralNetwork:
         """Calculate forward propagation."""
         self.__cache["A0"] = X
         for i in range(1, self.__L + 1):
-            z = np.matmul(self.__weights["W{}".format(i)], self.__cache["A{}".format(i - 1)]) + self.__weights["b{}".format(i)]
+            z = (
+                np.matmul(self.__weights["W{}".format(i)],
+                          self.__cache["A{}".format(i - 1)]) +
+                self.__weights["b{}".format(i)]
+            )
             self.__cache["A{}".format(i)] = 1 / (1 + np.exp(-z))
         return self.__cache["A{}".format(self.__L)], self.__cache
 
@@ -71,9 +77,16 @@ class DeepNeuralNetwork:
             dw = np.matmul(dz, a_prev.T) / m
             db = np.sum(dz, axis=1, keepdims=True) / m
             if i > 1:
-                dz = np.matmul(weights["W{}".format(i)].T, dz) * a_prev * (1 - a_prev)
-            self.__weights["W{}".format(i)] = weights["W{}".format(i)] - alpha * dw
-            self.__weights["b{}".format(i)] = weights["b{}".format(i)] - alpha * db
+                dz = (
+                    np.matmul(weights["W{}".format(i)].T, dz) *
+                    a_prev * (1 - a_prev)
+                )
+            self.__weights["W{}".format(i)] = (
+                weights["W{}".format(i)] - alpha * dw
+            )
+            self.__weights["b{}".format(i)] = (
+                weights["b{}".format(i)] - alpha * db
+            )
 
     def train(self, X, Y, iterations=5000, alpha=0.05,
               verbose=True, graph=True, step=100):
