@@ -71,20 +71,16 @@ class DeepNeuralNetwork:
         weights = self.__weights.copy()
         dz = cache["A{}".format(self.__L)] - Y
         for i in range(self.__L, 0, -1):
+            w_key = "W{}".format(i)
+            b_key = "b{}".format(i)
             a_prev = cache["A{}".format(i - 1)]
             dw = np.matmul(dz, a_prev.T) / m
             db = np.sum(dz, axis=1, keepdims=True) / m
             if i > 1:
-                dz = (
-                    np.matmul(weights["W{}".format(i)].T, dz) *
-                    a_prev * (1 - a_prev)
-                )
-            self.__weights["W{}".format(i)] = (
-                weights["W{}".format(i)] - alpha * dw
-            )
-            self.__weights["b{}".format(i)] = (
-                weights["b{}".format(i)] - alpha * db
-            )
+                dz = np.matmul(weights[w_key].T, dz)
+                dz = dz * a_prev * (1 - a_prev)
+            self.__weights[w_key] = weights[w_key] - alpha * dw
+            self.__weights[b_key] = weights[b_key] - alpha * db
 
     def train(self, X, Y, iterations=5000, alpha=0.05):
         """Train the deep neural network."""
