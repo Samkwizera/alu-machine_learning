@@ -2,14 +2,13 @@
 """Create a variational autoencoder."""
 
 import tensorflow.keras as keras
-from tensorflow.keras import backend as K
 
 
 def sampling(args):
     """Sample a latent vector from a mean and log variance."""
     mean, log_var = args
-    epsilon = K.random_normal(shape=K.shape(mean))
-    return mean + K.exp(log_var / 2) * epsilon
+    epsilon = keras.backend.random_normal(shape=keras.backend.shape(mean))
+    return mean + keras.backend.exp(log_var / 2) * epsilon
 
 
 def autoencoder(input_dims, hidden_layers, latent_dims):
@@ -45,9 +44,10 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
     reconstruction_loss = keras.losses.binary_crossentropy(
         encoder_input, auto_output)
     reconstruction_loss *= input_dims
-    kl_loss = -0.5 * K.sum(
-        1 + log_var - K.square(mean) - K.exp(log_var), axis=1)
-    auto.add_loss(K.mean(reconstruction_loss + kl_loss))
+    kl_loss = -0.5 * keras.backend.sum(
+        1 + log_var - keras.backend.square(mean)
+        - keras.backend.exp(log_var), axis=1)
+    auto.add_loss(keras.backend.mean(reconstruction_loss + kl_loss))
     auto.compile(optimizer='adam')
 
     return encoder, decoder, auto
