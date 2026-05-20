@@ -7,7 +7,9 @@ import tensorflow.keras as keras
 def sampling(args):
     """Sample a latent vector from a mean and log variance."""
     mean, log_var = args
-    epsilon = keras.backend.random_normal(shape=keras.backend.shape(mean))
+    batch = keras.backend.shape(mean)[0]
+    dims = keras.backend.int_shape(mean)[1]
+    epsilon = keras.backend.random_normal(shape=(batch, dims))
     return mean + keras.backend.exp(log_var / 2) * epsilon
 
 
