@@ -1,3 +1,4 @@
+-- Creates the SafeDiv function.
 DROP FUNCTION IF EXISTS SafeDiv;
 
 DELIMITER //

@@ -1,3 +1,4 @@
+-- Creates a trigger that resets valid_email when email changes.
 DROP TRIGGER IF EXISTS reset_valid_email;
 
 DELIMITER //

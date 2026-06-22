@@ -1,3 +1,4 @@
+-- Creates the AddBonus stored procedure.
 DROP PROCEDURE IF EXISTS AddBonus;
 
 DELIMITER //

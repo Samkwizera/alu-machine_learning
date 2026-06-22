@@ -1,3 +1,4 @@
+-- Creates a trigger that decreases item quantity after an order.
 DROP TRIGGER IF EXISTS after_order;
 
 DELIMITER //

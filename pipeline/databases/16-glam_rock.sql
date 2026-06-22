@@ -1,3 +1,4 @@
+-- Lists Glam rock bands by lifespan.
 SELECT band_name,
        IF(split, split, 2020) - formed AS lifespan
 FROM metal_bands

@@ -1,1 +1,2 @@
+// Lists school documents matching Holberton school.
 db.school.find({ name: "Holberton school" })
