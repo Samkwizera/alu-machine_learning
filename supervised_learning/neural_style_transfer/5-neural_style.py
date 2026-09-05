@@ -35,7 +35,7 @@ class NST:
             raise TypeError('beta must be a non-negative number')
 
         if not tf.executing_eagerly():
-            tf.compat.v1.enable_eager_execution()
+            tf.enable_eager_execution()
 
         self.style_image = self.scale_image(style_image)
         self.content_image = self.scale_image(content_image)
@@ -53,12 +53,12 @@ class NST:
                 'image must be a numpy.ndarray with shape (h, w, 3)'
             )
 
+        height, width = image.shape[:2]
+        scale = 512 / max(height, width)
+        new_shape = (int(height * scale), int(width * scale))
         image = tf.convert_to_tensor(image, dtype=tf.float32)
-        shape = tf.cast(tf.shape(image)[:2], tf.float32)
-        scale = 512.0 / tf.reduce_max(shape)
-        new_shape = tf.cast(shape * scale, tf.int32)
-        image = tf.image.resize(image, new_shape, method='bicubic')
         image = tf.expand_dims(image, axis=0)
+        image = tf.image.resize_bicubic(image, new_shape)
 
         return tf.clip_by_value(image / 255.0, 0.0, 1.0)
 
