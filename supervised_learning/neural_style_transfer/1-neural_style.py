@@ -66,23 +66,23 @@ class NST:
             include_top=False,
             weights='imagenet'
         )
-
-        def replace_pooling(layer):
-            """Clone a VGG layer, replacing max pooling with average."""
-            if isinstance(layer, tf.keras.layers.MaxPooling2D):
-                return tf.keras.layers.AveragePooling2D.from_config(
-                    layer.get_config()
-                )
-            return layer.__class__.from_config(layer.get_config())
-
-        base_model = tf.keras.models.clone_model(
-            vgg,
-            clone_function=replace_pooling
-        )
-        base_model.set_weights(vgg.get_weights())
-        base_model.trainable = False
-
         layer_names = self.style_layers + [self.content_layer]
-        outputs = [base_model.get_layer(name).output
-                   for name in layer_names]
-        self.model = tf.keras.Model(base_model.input, outputs)
+        outputs = []
+        output = vgg.input
+
+        for layer in vgg.layers[1:]:
+            if isinstance(layer, tf.keras.layers.MaxPooling2D):
+                layer = tf.keras.layers.AveragePooling2D(
+                    pool_size=layer.pool_size,
+                    strides=layer.strides,
+                    padding=layer.padding,
+                    name=layer.name
+                )
+            output = layer(output)
+            if layer.name in layer_names:
+                outputs.append(output)
+            if layer.name == self.content_layer:
+                break
+
+        self.model = tf.keras.Model(vgg.input, outputs)
+        self.model.trainable = False
