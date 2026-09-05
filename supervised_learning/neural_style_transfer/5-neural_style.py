@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """Utilities for neural style transfer."""
 
-from numbers import Real
-
 import numpy as np
 import tensorflow as tf
 
@@ -31,9 +29,9 @@ class NST:
             raise TypeError(
                 'content_image must be a numpy.ndarray with shape (h, w, 3)'
             )
-        if not isinstance(alpha, Real) or not alpha >= 0:
+        if not isinstance(alpha, (int, float)) or alpha < 0:
             raise TypeError('alpha must be a non-negative number')
-        if not isinstance(beta, Real) or not beta >= 0:
+        if not isinstance(beta, (int, float)) or beta < 0:
             raise TypeError('beta must be a non-negative number')
 
         if not tf.executing_eagerly():
