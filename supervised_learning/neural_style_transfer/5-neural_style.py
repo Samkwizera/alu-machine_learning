@@ -91,12 +91,11 @@ class NST:
     @staticmethod
     def gram_matrix(input_layer):
         """Calculate the normalized Gram matrix of a layer output."""
-        if not isinstance(input_layer, (tf.Tensor, tf.Variable)) or \
-                input_layer.shape.rank != 4:
+        if (not isinstance(input_layer, (tf.Tensor, tf.Variable)) or
+                len(input_layer.shape) != 4):
             raise TypeError('input_layer must be a tensor of rank 4')
 
-        gram = tf.linalg.einsum('bijc,bijd->bcd',
-                               input_layer, input_layer)
+        gram = tf.einsum('bijc,bijd->bcd', input_layer, input_layer)
         dimensions = tf.shape(input_layer)
         locations = tf.cast(dimensions[1] * dimensions[2],
                             input_layer.dtype)
@@ -121,8 +120,8 @@ class NST:
 
     def layer_style_cost(self, style_output, gram_target):
         """Calculate the style cost for one model layer."""
-        if not isinstance(style_output, (tf.Tensor, tf.Variable)) or \
-                style_output.shape.rank != 4:
+        if (not isinstance(style_output, (tf.Tensor, tf.Variable)) or
+                len(style_output.shape) != 4):
             raise TypeError('style_output must be a tensor of rank 4')
 
         channels = style_output.shape[-1]
