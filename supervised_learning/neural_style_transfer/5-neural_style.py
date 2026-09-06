@@ -148,10 +148,10 @@ class NST:
                 )
             )
 
-        costs = [
-            self.layer_style_cost(output, target)
-            for output, target in zip(
-                style_outputs, self.gram_style_features
-            )
-        ]
-        return tf.add_n(costs) / layer_count
+        weight = 1 / layer_count
+        cost = 0
+        for output, target in zip(
+                style_outputs, self.gram_style_features):
+            cost += weight * self.layer_style_cost(output, target)
+
+        return cost
