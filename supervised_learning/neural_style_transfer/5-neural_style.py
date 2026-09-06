@@ -95,7 +95,9 @@ class NST:
                 len(input_layer.shape) != 4):
             raise TypeError('input_layer must be a tensor of rank 4')
 
-        gram = tf.einsum('bijc,bijd->bcd', input_layer, input_layer)
+        gram = tf.linalg.einsum(
+            'bijc,bijd->bcd', input_layer, input_layer
+        )
         dimensions = tf.shape(input_layer)
         locations = tf.cast(dimensions[1] * dimensions[2],
                             input_layer.dtype)
@@ -148,10 +150,10 @@ class NST:
                 )
             )
 
-        weight = 1 / layer_count
-        cost = 0
-        for output, target in zip(
-                style_outputs, self.gram_style_features):
-            cost += weight * self.layer_style_cost(output, target)
-
-        return cost
+        costs = [
+            self.layer_style_cost(output, target)
+            for output, target in zip(
+                style_outputs, self.gram_style_features
+            )
+        ]
+        return tf.add_n(costs) / layer_count
