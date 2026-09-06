@@ -57,7 +57,9 @@ class NST:
         new_shape = (int(height * scale), int(width * scale))
         image = tf.convert_to_tensor(image, dtype=tf.float32)
         image = tf.expand_dims(image, axis=0)
-        image = tf.image.resize_bicubic(image, new_shape)
+        image = tf.image.resize_bicubic(
+            image, new_shape, half_pixel_centers=True
+        )
 
         return tf.clip_by_value(image / 255.0, 0.0, 1.0)
 
