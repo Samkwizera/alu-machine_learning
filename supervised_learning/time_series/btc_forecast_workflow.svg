@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#08111f"/>
+  <circle cx="130" cy="110" r="55" fill="#f7931a"/>
+  <text x="130" y="130" text-anchor="middle" font-size="56" fill="white" font-family="Arial">₿</text>
+  <text x="220" y="105" font-size="48" font-weight="bold" fill="#f4f7fb" font-family="Arial">Forecasting Bitcoin</text>
+  <text x="220" y="155" font-size="28" fill="#9fb2cc" font-family="Arial">24 hours of market data → next-hour close</text>
+  <polyline points="85,430 170,390 250,420 340,315 430,355 520,270 610,300 700,205 790,250 880,180 970,225 1080,135" fill="none" stroke="#42d3a5" stroke-width="10"/>
+  <line x1="80" y1="470" x2="1090" y2="470" stroke="#40506a" stroke-width="3"/>
+  <text x="85" y="525" font-size="25" fill="#9fb2cc" font-family="Arial">Hourly resampling</text>
+  <text x="465" y="525" font-size="25" fill="#9fb2cc" font-family="Arial">tf.data windows</text>
+  <text x="825" y="525" font-size="25" fill="#9fb2cc" font-family="Arial">GRU forecast</text>
+  <circle cx="130" cy="555" r="8" fill="#f7931a"/>
+  <circle cx="510" cy="555" r="8" fill="#f7931a"/>
+  <circle cx="870" cy="555" r="8" fill="#f7931a"/>
+</svg>
